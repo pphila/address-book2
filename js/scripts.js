@@ -62,6 +62,7 @@ function displayContactDetails(event) {
   document.querySelector(".email-address2").innerText = contact.secondaryEmail;
   document.querySelector(".mailing-address").innerText = contact.mailingAddress;
   document.querySelector("div#contact-details").removeAttribute("class");
+  document.querySelector("button.delete").setAttribute("id", contact.id);
 }
 
 // UI Logic
@@ -81,6 +82,13 @@ function listContacts(addressBookToDisplay) {
   contactsDiv.append(ul);
 }
 
+function handleDelete(event) {
+  addressBook.deleteContact(event.target.id);
+  document.querySelector("button.delete").removeAttribute("id");
+  document.querySelector("div#contact-details").setAttribute("class", "hidden");
+  listContacts(addressBook);
+}
+
 function handleFormSubmission(event) {
   event.preventDefault();
   const inputtedFirstName = document.querySelector("input#new-first-name").value;
@@ -96,5 +104,6 @@ function handleFormSubmission(event) {
 
 window.addEventListener("load", function () {
   document.querySelector("form#new-contact").addEventListener("submit", handleFormSubmission);
-  this.document.querySelector("div#contacts").addEventListener("click", displayContactDetails);
+  document.querySelector("div#contacts").addEventListener("click", displayContactDetails);
+  document.querySelector("button.delete").addEventListener("click", handleDelete);
 });
